@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>导航</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="/js/moment-with-locales.js"></script>
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
+
+
+    <style>
+        .img-responsive {
+            display: block;
+            height: auto;
+            max-width: 100%;
+        }
+    </style>
+
+    <style type="text/css">
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
+        }
+
+        .xxxx {
+            height: 2px;
+            background: #999999;
+            margin-top: 16px;
+            width: 1em;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+    </style>
+
+    <style>
+        .box {
+            width: 1300px;
+            height: 500px;
+            background-color: white;
+        }
+    </style>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">档案库</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">档案库数据查看 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a  href="cm1.html" th:href="@{/user/cm1}" >● 区域维度分析</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="cm2.html" th:href="@{/user/cm2}">● 光交箱分析</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="cm3.html" th:href="@{/user/cm3}">● 装维及时率分析</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="cm4.html" th:href="@{/user/cm4}">● 装维满意度分析</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="cm4.html" th:href="@{/user/cm5}">● 网元投诉分析</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="cm4.html" th:href="@{/user/cm6}">● 小区事件分析</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="搜索">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+<!--                <li><a href="#">登录</a></li>-->
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<img src="/img/logo-700.png" height="250" width="1365" class=" img-responsive"/>
+
+<br>
+<br>
+
+<div class="jumbotron">
+    <h1 align="center">家客运维指挥作战平台</h1>
+    <br>
+
+</div>
+
+
+<!--=====================时间组件=====================-->
+
+
+<div class="form-group col-md-3 hidden" style="float: left">
+
+
+    <div class="myrow">
+
+        <div class='input-group date' style="width: 10em;" id='datetimepicker1'>
+            <input type='text' id="start_time" class="timeInput form-control" style="width: 100px" />
+            <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+        </div>
+        <div class="xxxx">
+
+        </div>
+        <div class='input-group date' style="width: 10em;" id='datetimepicker2'>
+            <input type='text' id="end_time" class="timeInput form-control" style="width: 100px" />
+            <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+
+<div class="box container   " id="main" style="height:500px" ></div>
+<br>
+<br>
+
+<script>
+    //获取当前时间
+    let myDate = new Date();
+    let arr = myDate.toLocaleDateString();
+    console.log(arr);
+    //获取三十天前日期
+    let lw = new Date(myDate - 1000 * 60 * 60 * 24 * 30);//最后一个数字30可改，30天的意思
+    let lastY = lw.getFullYear();
+    let lastM = lw.getMonth()+1;
+    let lastD = lw.getDate();
+    let startdate=lastY+"-"+(lastM<10 ? "0" + lastM : lastM)+"-"+(lastD<10 ? "0"+ lastD : lastD);//三十天之前日期
+    console.log(startdate)
+
+
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        defaultDate: startdate
+    });
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        defaultDate: new Date()
+    });
+    var start_time=startdate;
+    var end_time=arr.replaceAll('/','-');
+
+    console.log("end_time",end_time);
+    $.get('/data0?start_time='+start_time+'&end_time='+end_time, function (res) {
+        if(res) {
+
+            weather=res.weathers;
+
+            var arr = [];
+            var arr1 = [];
+            var arr2 = [];
+            var arr3 = [];
+            var arr4 = [];
+            var arr5 = [];
+
+            var echarts1 = res.echart1_dies;
+            for (let e1 of echarts1) {
+                arr.push(e1.wantoubi);
+            }
+            var echarts2 = res.echart2_dies;
+            for (let e2 of echarts2) {
+                arr1.push(e2.wantoubi);
+            }
+
+            var echarts3 = res.echart3_dies;
+            for (let e3 of echarts3) {
+                arr2.push(e3.wantoubi);
+            }
+
+            var echarts4 = res.echart4_dies;
+            for (let e4 of echarts4) {
+                arr3.push(e4.wantoubi);
+            }
+
+            var echarts5 = res.echart5_dies;
+            for (let e5 of echarts5) {
+                arr4.push(e5.wantoubi);
+            }
+
+            var echarts6 = res.echart6_dies;
+            for (let e6 of echarts6) {
+                arr5.push(e6.wantoubi);
+            }
+
+
+            var date_weather=[];
+            for(var i=0;i<weather.length;i++){
+                date_weather.push(weather[i].time+'\n'+weather[i].tianqi+'\n'+weather[i].temperature);
+            }
+
+            var myChart = echarts.init(document.querySelector(".box"));
+
+            var option = {
+
+                title: {
+                    text: '近30天全区广义投诉量（万投比）', left: 'center'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+
+                },
+                legend: {
+                    data: ['市区分公司', '新区分公司', '丹徒分公司', '丹阳分公司', '扬中分公司', '句容分公司'],
+                    bottom: 0,
+                    icon: "rect"
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '8%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    name: "日期",
+                    type: 'category',
+                    boundaryGap: false,
+                    // data: getdiffdate(stime,etime)
+                    data: date_weather,
+                },
+                yAxis: {
+                    name: "万投比",
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '市区分公司',
+                        type: 'line',
+                        data: arr,
+
+                        itemStyle: {normal: {label: {show: true}}}
+                    },
+                    {
+                        name: '新区分公司',
+                        type: 'line',
+
+                        data: arr1,
+                        itemStyle: {normal: {label: {show: true}}}
+                    },
+                    {
+                        name: '丹徒分公司',
+                        type: 'line',
+
+                        data: arr2,
+                        itemStyle: {normal: {label: {show: true}}}
+                    },
+                    {
+                        name: '丹阳分公司',
+                        type: 'line',
+
+                        data: arr3,
+                        itemStyle: {normal: {label: {show: true}}}
+                    },
+                    {
+                        name: '扬中分公司',
+                        type: 'line',
+
+                        data: arr4,
+                        itemStyle: {normal: {label: {show: true}}}
+                    },
+
+                    {
+                        name: '句容分公司',
+                        type: 'line',
+
+                        data: arr5,
+                        itemStyle: {normal: {label: {show: true}}}
+                    }
+                ]
+            };
+            myChart.setOption(option, true);}
+    })
+
+</script>
+
+
+<!--=====================时间组件=====================-->
+
+
+
+<script>
+
+
+</script>
+
+</body>
+</html>

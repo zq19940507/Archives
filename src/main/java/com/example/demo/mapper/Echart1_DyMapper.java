@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
-
 import com.example.demo.model.Echart1_dy;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -9,7 +9,9 @@ import java.util.List;
 @Mapper
 public interface Echart1_DyMapper {
 
-    @Select("select dy,wantoubi,day from temp2 where dy = '市区营销中心' ")
+    @Select("select wantoubi,dy from echarts where date_format(day, '%Y-%m-%d') >= #{startTime} and date_format(day, '%Y-%m-%d') <= #{endTime} and dy='市区分公司'  " )
+    List<Echart1_dy> getAllsq(@Param("startTime") String startTime, @Param("endTime") String endTime);
 
-    List<Echart1_dy> getAll();
+
+
 }

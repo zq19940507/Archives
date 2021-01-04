@@ -1,103 +1,48 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title></title>
-    <style>
-        .box {
-            width: 1300px;
-            height: 500px;
-            background-color: white;
-        }
-    </style>
-
-
+    <meta charset="utf-8">
+    <title>demo</title>
 </head>
-
 <body>
-<div class="box"></div>
-<script src="../static/js/echarts.min.js"></script>
-<script>
-    var myChart = echarts.init(document.querySelector(".box"));
-    var option={
+<input id="uid" type="text">
+<button onclick="changeUrl()">提交url</button>
+<script type="text/javascript">
+    /*
+        changeURLPar()函数参数说明：
+            uri:需要改变的链接
+            par:需要改变或者曾加的参数名称
+            par_value:需要改变或者曾加的参数值
 
-            title: {
-                text: '广义投诉量（万投比）',left:'center'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['市区营销中心', '新区营销中心', '丹徒营销中心', '丹阳分公司', '扬中分公司','句容分公司'],
-                bottom: 0,
-                icon:"rect"
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '8%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
+    */
+    function changeURLPar(uri, par, par_value) {
+        var pattern = par + '=([^&]*)';
+        var replaceText = par + '=' + par_value;
+        if (uri.match(pattern)) {//如果连接中带这个参数
+            var tmp = '/\\' + par + '=[^&]*/';
+            tmp = uri.replace(eval(tmp), replaceText);
+            return (tmp);
+        }
+        else {
+            if (uri.match('[\?]')) {//如果链接中不带这个参数但是有其他参数
+                return uri + '&' + replaceText;
+            }
+            else {//如果链接中没有带任何参数
+                return uri + '?' + replaceText;
+            }
+        }
+        return uri + '\n' + par + '\n' + par_value;
+    }
 
+    function changeUrl(){
+        var uid = document.getElementById('uid').value;//从输入框获取uid的值
 
-                type: 'category',
-                boundaryGap: false,
-                data: ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12','13','14','15'
-                ,'16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    name: '市区营销中心',
-                    type: 'line',
+        var newurl = changeURLPar(window.location.href, 'uid', uid);//将uid和现有的页面地址拼接
 
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: '新区营销中心',
-                    type: 'line',
+        window.history.pushState(null,null,newurl);//向当前url添加参数
+    }
 
-                    data: [120, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: '丹徒营销中心',
-                    type: 'line',
-
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                },
-                {
-                    name: '丹阳分公司',
-                    type: 'line',
-
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: '扬中分公司',
-                    type: 'line',
-
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                },
-
-                {
-                    name: '句容分公司',
-                    type: 'line',
-
-                    data: [777, 920, 850, 900, 1190, 1230, 1120]
-                }
-            ]
-        };
-        myChart.setOption(option);
 </script>
 
 </body>
-
 </html>
