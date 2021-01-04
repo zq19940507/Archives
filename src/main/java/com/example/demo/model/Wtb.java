@@ -13,5 +13,4 @@ public class Wtb {
     private Integer user_amount;
     private Double wtb_amount;
 
-
 }

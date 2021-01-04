@@ -1,10 +1,650 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>装维及时率分析</title>
+<!--    <link rel="stylesheet" href="../static/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet"  href="../static/css/bootstrap-datetimepicker.min.css">-->
+<!--    <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">-->
+<!--    <script src="../static/js/jquery-1.11.3.min.js"></script>-->
+<!--    <script src="../static/js/bootstrap.min.js"></script>-->
+<!--    <script src="../static/js/echarts.min.js"></script>-->
+<!--    &lt;!&ndash;    <script src="../static/js/jquery.js"></script>&ndash;&gt;-->
+<!--    <script src="../static/js/bootstrap-datetimepicker.min.js"></script>-->
+<!--    <script src="../static/js/moment-with-locales.js"></script>-->
+
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="/js/moment-with-locales.js"></script>
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
+
+
+
+
+    <!--    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>-->
+    <!--    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">-->
+    <!--    <script src="https://cdn.bootcss.com/moment.js/2.22.0/moment-with-locales.js"></script>-->
+<!--    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
+
+    <style type="text/css">
+        .myrow {
+            display: flex;
+            flex-direction: row;
+            /*margin-left:1em;*/
+        }
+
+        .xxxx {
+            height: 2px;
+            background: #999999;
+            margin-top: 16px;
+            width: 1em;
+            margin-left: 1em;
+            margin-right: 1em;
+        }
+    </style>
+
+    <style>
+        .box {
+            width: 1300px;
+            height: 500px;
+            background-color: white;
+        }
+    </style>
+
+    <script>
+        window.onload=function(){
+
+            document.getElementById("btn").click();
+
+        }
+    </script>
+
+
 </head>
 <body>
+
+<div class="container">
+    <div class="page-header">
+        <h2 align="center">装维及时率分析</small></h2>
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    查看其它
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="/cm1">区域维度分析</a></li>
+                    <li><a href="/cm2">光交箱分析</a></li>
+
+                    <li><a href="/cm4">装维满意度分析</a></li>
+                    <li><a href="/cm5">网元投诉分析</a></li>
+                    <li><a href="/cm6">小区事件分析</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/navigation">返回首页</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container">
+
+    <div class="row ">
+
+
+        <div class="col-md-2" style="float: left" >
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <a type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">单元 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="dany" onclick="choosedany"  th:method="get">
+                        <li><a href="#"  >市区分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">新区分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">丹徒分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">丹阳分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">扬中分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">句容分公司</a></li>
+                        <li role="separator" class="divider"></li>
+                    </ul>
+                </div><!-- /btn-group -->
+                <form id="ccdy">
+                    <input type="text" id="dy_in" class="form-control"  name="danyuan" value="" aria-label="..." placeholder="==请选择==">
+                </form>
+            </div><!-- /input-group -->
+        </div>
+
+        <!--        选择显示单元在inptu标签里-->
+        <script>
+            $("#dany").on("click", "li", function(){
+                $("#dy_in").val($(this).text());
+            });
+        </script>
+
+
+<!--        <div class="col-md-2 " style="float: left">-->
+<!--            <div class="input-group">-->
+<!--                <div class="input-group-btn ">-->
+<!--                    <a type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"-->
+<!--                       aria-haspopup="true" aria-expanded="false" >网格 <span class="caret"></span></a>-->
+<!--                    <ul class="dropdown-menu" id="wg" style="height:400px;overflow:scroll" >-->
+<!--                        <li><a href="#"  >梦溪区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >北固区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >南徐区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >宝塔区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >象山区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >金山区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >高新区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >谏壁区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >南山区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >市区校园区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >大港区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丁北区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丁南区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丁岗区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >姚桥区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >宜城区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >高资区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >辛丰区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >谷阳区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >上党区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >宝堰区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹徒校园区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳丹北区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳曲阿区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳云阳区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >司徒区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳高新区区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >吕城区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳城西区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >皇塘区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳界牌区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >陵口区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >丹阳工业园区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >扬中城西区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >新坝区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >扬中城东区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >八桥区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >油坊区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >华阳区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >句容开发区区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >崇明区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >宝华区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >边白区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >下蜀区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >天王区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >茅山区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >郭庄区域中心</a></li>-->
+<!--                        <li role="separator" class="divider"></li>-->
+<!--                        <li><a href="#"  >后白区域中心</a></li>-->
+
+
+
+
+<!--                    </ul>-->
+<!--                </div>&lt;!&ndash; /btn-group &ndash;&gt;-->
+<!--                <form id="czwg">-->
+<!--                    <input type="text"  class="form-control" id="wangge" value="" aria-label="..." placeholder="==请选择==">-->
+<!--                </form>-->
+
+<!--            </div>&lt;!&ndash; /input-group &ndash;&gt;-->
+<!--        </div>-->
+
+        <!--        选择网格单元在inptu标签里-->
+        <script>
+            $("#wg").on("click", "li", function(){
+                $("#wangge").val($(this).text());
+            });
+        </script>
+
+
+        <div class="input-group col-md-2" style="float: left">
+            <span class="input-group-addon" id="sizing-addon2">装维姓名</span>
+            <form id="xiaoqu">
+                <input type="text" class="form-control" id="xiaoqu_in" name="comm" placeholder="请输入姓名" aria-describedby="sizing-addon2">
+            </form>
+        </div>
+
+
+        <!--        <div class="input-group col-md-2" style="float: left">-->
+        <!--            <span class="input-group-addon" id="sizing-addon2">小区</span>-->
+        <!--            <form id="xiaoqu">-->
+        <!--                <input type="text" class="form-control" id="xiaoqu_in" name="comm" placeholder="请输入小区名" aria-describedby="sizing-addon2">-->
+        <!--            </form>-->
+        <!--        </div>-->
+
+        <div class=" col-md-3 " role="group" aria-label="..." style="float: left">
+            <button type="button" id="btn" tag="cbtn" class="btn btn-primary" onclick="dian()">查询</button>
+            <button type="button" class="btn btn-info" onclick="formReset()" value="Reset form" >重置</button>
+            <button class="btn btn-success" data-target="#myModal" data-toggle="modal">
+                导入数据
+            </button>
+
+
+            <!--            点击按钮获取参数到后端-->
+
+            <script>
+                function formReset()
+                {
+                    document.getElementById("ccdy").reset();
+                    document.getElementById("czwg").reset();
+                    document.getElementById("xiaoqu").reset();
+                }
+
+            </script>
+
+
+            <a class="btn btn-warning" >
+                日期
+            </a>
+            <!--fade 淡入淡出-->
+            <div class="modal fade" id="myModal" aria-labelledby="myModallabel" aria-hidden="true" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h5 class="modal-title" id="myModallabel " style="margin: auto;">请选择文件</h5>
+                        </div>
+
+                        <form id="formData" class="form-horizontal" >
+
+                            <div class="modal-body">
+                                <div class="form-group ">
+                                    <form>
+                                        <div class="form-group" style="margin: auto;">
+
+                                            <input type="file" id="exampleInputFile">
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="modal-footer">
+                                <button class="btn btn-success" type="button" onclick="">提交</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">关闭</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!--=====================时间组件=====================-->
+
+
+        <div class="form-group col-md-3 " style="float: left">
+
+
+            <div class="myrow">
+
+                <div class='input-group date' style="width: 10em;" id='datetimepicker1'>
+                    <input type='text' id="start_time" class="timeInput form-control" style="width: 100px" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <div class="xxxx">
+
+                </div>
+                <div class='input-group date' style="width: 10em;" id='datetimepicker2'>
+                    <input type='text' id="end_time" class="timeInput form-control" style="width: 100px" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+            $(function() {
+                $('#form1').hide();
+                var picker1 = $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: moment.locale('zh-cn'),
+                    //minDate: '2016-7-1'
+                });
+                var picker2 = $('#datetimepicker2').datetimepicker({
+                    format: 'YYYY-MM-DD',
+                    locale: moment.locale('zh-cn')
+                });
+                //动态设置最小值
+                picker1.on('dp.change', function(e) {
+                    picker2.data('DateTimePicker').minDate(e.date);
+                });
+                //动态设置最大值
+                picker2.on('dp.change', function(e) {
+                    picker1.data('DateTimePicker').maxDate(e.date);
+                });
+            });
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                defaultDate: "2020-07-01"
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn'),
+                defaultDate: "2020-07-10"
+            });
+        </script>
+
+
+        <!--=====================时间组件=====================-->
+
+
+    </div><!-- /.row -->
+
+</div>
+
+<!--================end================-->
+<div class="container" >
+    <table class="table table-bordered">
+        <caption>装维-投诉处理及时率-万投比
+            <button style="float: right" class="btn btn-success" type="btn" id="btn2">数据导出</button>
+        </caption>
+
+        <thead>
+        <tr bgcolor="#1e90ff" >
+            <th class="text-center">单元</th>
+            <th class="text-center">代维单位</th>
+            <th class="text-center">装维姓名</th>
+            <th class="text-center">人员工号</th>
+            <th class="text-center">广义投诉量</th>
+            <th class="text-center">维护用户量</th>
+            <th class="text-center">广义万投比 </th>
+            <th class="text-center">投诉处理及时率</th>
+        </tr>
+        </thead>
+
+
+        <!--        <tbody>-->
+        <!--            <tr th:each="wtb:${wtbs}">-->
+        <!--                <td  th:text="${wtb.getLocation()}"></td>-->
+        <!--                <td th:text="${wtb.getZone()}"></td>-->
+        <!--                <td th:text="${wtb.getDw()}"></td>-->
+        <!--                <td th:text="${wtb.getCommunity()}"></td>-->
+        <!--                <td th:text="${wtb.getId()}"></td>-->
+        <!--                <td th:text="${wtb.getComplaint()}"></td>-->
+        <!--                <td th:text="${wtb.getUser_amount()}"></td>-->
+        <!--                <td th:text="${wtb.getWtb_amount()}"></td>-->
+        <!--            </tr>-->
+
+
+        <!--        </tbody>-->
+
+        <tbody id="tbody-result">
+        <!--        <tr class="tr1">-->
+
+
+
+        <!--        </tr>-->
+
+
+
+
+
+        </tbody>
+
+
+
+    </table>
+
+
+</div>
+
+
+
+<!--================echarts======================-->
+<!--<div id="ecwtb" th:fragment="ecwtb">-->
+<!--    <div  th:each="ec1:${echart1_dies} ">-->
+<!--    &lt;!&ndash;    <input type="hidden" id="ec_dany"  th:value="${echart1_day.getDy()}">&ndash;&gt;-->
+<!--        <input  id="ec_wtb"  name="sss" th:value="${ec1.wantoubi}">-->
+<!--        <input type="hidden" id="ec_day" name="getday" th:value="${ec1.getDay()}">-->
+
+<!--    </div>-->
+
+
+<!--    <div  th:each="ec2:${echart2_dies} ">-->
+<!--        &lt;!&ndash;    <input type="hidden" id="ec_dany"  th:value="${echart1_day.getDy()}">&ndash;&gt;-->
+<!--        <input  id=""  name="kkk" th:value="${ec2.wantoubi}">-->
+<!--&lt;!&ndash;        <input type="hidden" id="ec_day" name="getday" th:value="${ec1.getDay()}">&ndash;&gt;-->
+
+<!--    </div>-->
+<!--</div>-->
+
+<!--    <script>-->
+<!--        //页面加载时调用函数-->
+<!--        $(function () {-->
+<!--            //发送请求到对应请求路径-->
+<!--            $('#ecwtb').load("http://localhost:8082/cm1");-->
+<!--        })-->
+<!--    </script>-->
+
+
+<div class="box" id="main" ></div>
+
+<script type="text/javascript"  th:inline="javascript">
+
+
+
+
+
+    var btn = document.getElementById("btn");
+    var btn2 = document.getElementById("btn2");
+
+    btn.onclick=function () {
+
+        var ajaxObj= new XMLHttpRequest();
+        // 单元
+        var dan_y = document.getElementById("dy_in").value;
+        // 区域中心
+        // var wang_ge = document.getElementById("wangge").value;
+        // //小区
+        var xiaoqu_in = document.getElementById("xiaoqu_in").value;
+
+        // 开始时间
+        var start_time = document.getElementById("start_time").value;
+        // 结束时间
+        var end_time = document.getElementById("end_time").value;
+        // alert(end_time);
+
+
+        // ==========返回前端数据==============
+
+         stime = document.getElementById("start_time").value; //开始日期
+         etime = document.getElementById("end_time").value; //结束日期
+
+
+        getdiffdate(stime,etime);
+        //获取两日期之间日期列表函数
+
+        //获取两日期之间日期列表函数
+        function getdiffdate(stime,etime){
+            //初始化日期列表，数组
+            var diffdate = new Array();
+            var i=0;
+            var arrday=[];
+            //开始日期小于等于结束日期,并循环
+            while(stime<=etime){
+                diffdate[i] = stime;
+
+                //获取开始日期时间戳
+
+                arrday.push(stime);
+                var stime_ts = new Date(stime).getTime();
+                // console.log('当前日期：'+stime   +'当前时间戳：'+stime_ts);
+
+                //增加一天时间戳后的日期
+                var next_date = stime_ts + (24*60*60*1000);
+
+                //拼接年月日，这里的月份会返回（0-11），所以要+1
+                var next_dates_y = new Date(next_date).getFullYear()+'-';
+                var next_dates_m = (new Date(next_date).getMonth()+1 < 10)?'0'+(new Date(next_date).getMonth()+1)+'-':(new Date(next_date).getMonth()+1)+'-';
+                var next_dates_d = (new Date(next_date).getDate() < 10)?'0'+new Date(next_date).getDate():new Date(next_date).getDate();
+
+                stime = next_dates_y+next_dates_m+next_dates_d;
+
+                //增加数组key
+                i++;
+            }
+            // console.log(diffdate);
+            // alert(arrday);
+            return arrday;
+        }
+
+
+        $.get('/data2?start_time='+start_time+'&end_time='+end_time
+            +'&dan_y='+dan_y+'&xiaoqu_in='+xiaoqu_in , function (res) {
+            if(res) {
+
+                col=res.workers;
+                console.log(JSON.stringify(col));
+                // var jsonData=JSON.stringify(col);
+
+                // ============================
+                var tbody=window.document.getElementById("tbody-result");
+                var html = "";
+
+                // var html = '<table border=1>';
+
+                for (var j in col) {
+                    var obj = col[j];
+                    html += '<tr>'
+                    html += '<td class="text-center">' + obj.location + '</td>';
+                    html += '<td class="text-center">' + obj.dw + '</td>';
+                    html += '<td class="text-center">' + obj.name + '</td>';
+                    html += '<td class="text-center">' + obj.id + '</td>';
+                    html += '<td class="text-center">' + obj.complaint + '</td>';
+                    html += '<td class="text-center">' + obj.wh_users + '</td>';
+                    html += '<td class="text-center">' + obj.wtb_amount + '</td>';
+                    html += '<td class="text-center">' + obj.promptness + '</td>';
+                    html += '</tr>'
+                }
+                // html += '</table>';
+                //
+                // $('#treeList1').append(html);
+                tbody.innerHTML = html;
+
+
+                // ============================
+
+
+
+            }
+        });
+
+    }
+
+    btn2.onclick= function (){
+        // console.log(result);
+
+        //要导出的json数据
+        //列标题，逗号隔开，每一个逗号就是隔开一个单元格
+        let str = `单元,代维单位,装维姓名,人员工号,广义投诉量,维护用户量,广义万投比,生成工单总量,投诉处理及时率\n`;
+        //增加\t为了不让表格显示科学计数法或者其他格式
+        for(let i = 0 ; i < col.length ; i++ ){
+            for(let item in col[i]){
+                str+=`${col[i][item] + '\t'},`;
+            }
+            str+='\n';
+        }
+        //encodeURIComponent解决中文乱码
+        let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(str);
+        //通过创建a标签实现
+        let link = document.createElement("a");
+        link.href = uri;
+        //对下载的文件命名
+        link.download =  stime+"至"+etime+ "投诉处理及时率.csv";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+    }
+
+
+
+</script>
+
+<!--<td th:text="${wtb.getWtb_amount()}"></td>-->
+
+
+<!--    <script>-->
+<!--        var r =document.getElementById('test').value;-->
+
+<!--    </script>-->
+
+
 
 </body>
 </html>
