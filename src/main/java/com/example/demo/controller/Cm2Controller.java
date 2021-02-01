@@ -23,6 +23,7 @@ public class Cm2Controller {
     @Autowired
     GjAllMapper gjAllMapper;
 
+
     @GetMapping("/user/cm2")
     public String getCm2(@RequestParam(name = "start_time", required = false,defaultValue = "2020-07-01") String starTtime,
                       @RequestParam(name = "end_time", required = false,defaultValue = "2020-07-10") String endTime,

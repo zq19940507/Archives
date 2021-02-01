@@ -23,6 +23,14 @@
         }
     </style>
 
+
+    <style>
+        .bg {
+            background:url("/img/logo-700.png") no-repeat center;
+            background-size:contain;
+        }
+    </style>
+
     <style type="text/css">
         .myrow {
             display: flex;
@@ -73,6 +81,7 @@
                     <ul class="dropdown-menu">
                         <li><a  href="cm1.html" th:href="@{/user/cm1}" >● 区域维度分析</a></li>
                         <li role="separator" class="divider"></li>
+
                         <li><a href="cm2.html" th:href="@{/user/cm2}">● 光交箱分析</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="cm3.html" th:href="@{/user/cm3}">● 装维及时率分析</a></li>
@@ -82,6 +91,7 @@
                         <li><a href="cm4.html" th:href="@{/user/cm5}">● 网元投诉分析</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="cm4.html" th:href="@{/user/cm6}">● 小区事件分析</a></li>
+
                     </ul>
                 </li>
             </ul>
@@ -100,16 +110,36 @@
 </nav>
 
 
-<img src="/img/logo-700.png" height="250" width="1365" class=" img-responsive"/>
+<div class="jumbotron masthead">
+    <div class="container">
+        <h1 align="center">家客运维指挥作战平台</h1>
+<!--        <h2>简洁、直观、强悍的家客数据库系统投诉分析应用</h2>-->
+    </div>
+</div>
 
-<br>
-<br>
+<!--<div class="page-header" style="height: 100px;text-align: center">-->
+<!--    <h1 align="center" style="margin: auto;vertical-align: middle;">家客运维指挥作战平台</h1>-->
+<!--</div>-->
 
-<div class="jumbotron">
-    <h1 align="center">家客运维指挥作战平台</h1>
-    <br>
+<div class="container-fluid">
+    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 bg" style='width:500px; height:450px; float: left; background-image: url("/img/logo-700.png ");'>
+<!--        <img src="/img/logo-700.png" height="250" width="1365" class=" img-responsive"/>-->
+    </div>
+
+    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 box container-fluid "  id="main" style="width:900px;height:450px; float: left">
+
+
+    </div>
+
 
 </div>
+
+
+
+<br>
+<br>
+
+
 
 
 <!--=====================时间组件=====================-->
@@ -143,7 +173,7 @@
 <br>
 
 
-<div class="box container   " id="main" style="height:500px" ></div>
+<!--<div class="box container " id="main" style="height:500px" ></div>-->
 <br>
 <br>
 

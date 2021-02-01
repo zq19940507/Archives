@@ -7,7 +7,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
@@ -28,24 +30,26 @@ public class LoginController {
 
     @PostMapping(value = "/user/navigation")
     public String login(@RequestParam("username") String username,
+
                         @RequestParam("password") String password,
                         Model model, HttpSession session) {
 
         System.out.println(username);
+
+
         if (!StringUtils.isEmpty(username) && "123456".equals(password)) {
 
 
-//            System.out.println(username);
-
-            session.setAttribute("user",password);
-
+            session.setAttribute("user",username);
 
 
             //登陆成功
             System.out.println("if-----------");
 
+
             return "navigation";
-//            return username;
+
+
 
         } else {
             //登录失败
@@ -56,7 +60,6 @@ public class LoginController {
 
 
     }
-
 
 
 }

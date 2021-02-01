@@ -81,11 +81,13 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 
+
                     <li><a href="/user/cm2">光交箱分析</a></li>
                     <li><a href="/user/cm3">装维及时率分析</a></li>
                     <li><a href="/user/cm4">装维满意度分析</a></li>
                     <li><a href="/user/cm5">网元投诉分析</a></li>
                     <li><a href="/user/cm6">小区事件分析</a></li>
+
                     <li role="separator" class="divider"></li>
                     <li><a href="/navigation">返回首页</a></li>
                 </ul>
@@ -422,7 +424,7 @@
             <button type="button" class="btn btn-info" onclick="formReset()" value="Reset form">重置</button>
 
             <button class="btn btn-success" data-target="#myModal" data-toggle="modal">
-                导入数据
+                周报分析
             </button>
 
 
@@ -448,27 +450,83 @@
 
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h5 class="modal-title" id="myModallabel " style="margin: auto;">请选择文件</h5>
+                            <h5 class="modal-title" id="myModallabel " style="margin: auto;">周报分析</h5>
                         </div>
 
-                        <form id="formData" class="form-horizontal">
+<!--                        <form id="formData" class="form-horizontal">-->
 
-                            <div class="modal-body">
-                                <div class="form-group ">
-                                    <form>
-                                        <div class="form-group" style="margin: auto;">
+<!--                            <div class="modal-body">-->
+<!--                                <div class="form-group ">-->
+<!--                                    <form>-->
+<!--                                        <div class="form-group" style="margin: auto;">-->
 
-                                            <input type="file" id="exampleInputFile">
+<!--                                            <input type="file" id="exampleInputFile">-->
 
-                                        </div>
-                                    </form>
-                                </div>
+<!--                                        </div>-->
+<!--                                    </form>-->
+<!--                                </div>-->
 
-                            </div>
+<!--                            </div>-->
+
+                        <div> <h5 style="font-weight: bold">1、市区分公司：</h5>
+
+                            <p id="sq"></p>
+                            <br>
+                            <p id="sq_"></p>
+
+
+
+
+                        </div>
+
+                        <div> <h5 style="font-weight: bold">2、新区分公司：</h5>
+
+                            <p id="xq"></p>
+                            <br>
+                            <p id="xq_"></p>
+
+
+
+                        </div>
+
+                        <div> <h5 style="font-weight: bold">3、丹徒分公司：</h5>
+
+                            <p id="dt"></p>
+                            <br>
+                            <p id="dt_"></p>
+
+
+                        </div>
+
+                        <div> <h5 style="font-weight: bold">4、丹阳分公司：</h5>
+
+                            <p id="dy"></p>
+                            <br>
+                            <p id="dy_"></p>
+
+
+                        </div>
+
+                        <div> <h5 style="font-weight: bold">5、句容分公司：</h5>
+
+                            <p id="jr"></p>
+                            <br>
+                            <p id="jr_"></p>
+
+                        </div>
+
+                        <div> <h5 style="font-weight: bold">6、扬中分公司：</h5>
+
+                            <p id="yz"></p>
+                            <br>
+                            <p id="yz_"></p>
+
+                        </div>
+
 
 
                             <div class="modal-footer">
-                                <button class="btn btn-success" type="button" onclick="">提交</button>
+<!--                                <button class="btn btn-success" type="button" onclick="">提交</button>-->
                                 <button class="btn btn-danger" type="button" data-dismiss="modal">关闭</button>
                             </div>
 
@@ -483,7 +541,7 @@
         </div>
 
         <!--=====================时间组件=====================-->
-
+        <input type='text' id="tp"  class="hidden">
 
         <div class="form-group col-md-3 " style="float: left">
 
@@ -533,12 +591,12 @@
             $('#datetimepicker1').datetimepicker({
                 format: 'YYYY-MM-DD',
                 locale: moment.locale('zh-cn'),
-                defaultDate: "2020-12-01"
+                defaultDate: "2021-01-01"
             });
             $('#datetimepicker2').datetimepicker({
                 format: 'YYYY-MM-DD',
                 locale: moment.locale('zh-cn'),
-                defaultDate: "2020-12-14"
+                defaultDate: "2021-01-12"
             });
         </script>
 
@@ -640,6 +698,8 @@
         var end_time = document.getElementById("end_time").value;
         // alert(end_time);
 
+
+
         var wgreact = window.document.getElementById("wg");
 
 
@@ -717,13 +777,356 @@
         $.get('/data?start_time=' + start_time + '&end_time=' + end_time
             + '&dan_y=' + dan_y + '&wang_ge=' + wang_ge + '&xiaoqu_in=' + xiaoqu_in, function (res) {
             if (res) {
+                rep=res.report;
+
+                tp=res.top;
+                console.log("前三十",tp)
+
+                console.log('周报TOP5',rep);
+
+                sq="市区万投比TOP5小区为"+rep[0].community+"、"+rep[1].community+"、"+rep[2].community+"、"+rep[3].community+"、"+rep[4].community+"。"
+
+                xq="新区万投比TOP5小区为"+rep[5].community+"、"+rep[6].community+"、"+rep[7].community+"、"+rep[8].community+"、"+rep[9].community+"。"
+
+                dt="丹徒万投比TOP5小区为"+rep[10].community+"、"+rep[11].community+"、"+rep[12].community+"、"+rep[13].community+"、"+rep[14].community+"。"
+
+                dy="丹阳万投比TOP5小区为"+rep[15].community+"、"+rep[16].community+"、"+rep[17].community+"、"+rep[18].community+"、"+rep[19].community+"。"
+
+
+                jr="句容万投比TOP5小区为"+rep[20].community+"、"+rep[21].community+"、"+rep[22].community+"、"+rep[23].community+"、"+rep[24].community+"。"
+
+                yz="扬中万投比TOP5小区为"+rep[25].community+"、"+rep[26].community+"、"+rep[27].community+"、"+rep[28].community+"、"+rep[29].community+"。"
+
+                var re_sq= window.document.getElementById("sq");
+                var re_xq= window.document.getElementById("xq");
+                var re_dt= window.document.getElementById("dt");
+                var re_dy= window.document.getElementById("dy");
+                var re_jr= window.document.getElementById("jr");
+                var re_yz= window.document.getElementById("yz");
+
+
+                re_sq.innerHTML=sq;
+                re_xq.innerHTML=xq;
+                re_dt.innerHTML=dt;
+                re_dy.innerHTML=dy;
+                re_jr.innerHTML=jr;
+                re_yz.innerHTML=yz;
+
+                var ceshi=[];
+
+                ceshi.push( {name:tp[1].kind2,value:tp[1].num2 } );
+
+
+
+                var field_=[];  //一级原因
+
+                var field_2=[]; //二级原因
+
+                for(var i = 0; i < rep.length; i++){
+                    var field=[];
+
+                    var field2=[];
+
+                    for (var j=0;j<tp.length;j++){
+
+                        if (rep[i].community==tp[j].community){
+                            field.push( {name:tp[j].kind2,value:tp[j].num2 } );
+                            field2.push( {name:tp[j].kind1,value:tp[j].num1 } );
+                        }
+
+                        if (j==tp.length-1){
+                            field_.push(field);
+
+                            field_2.push(field2);
+                        }
+
+
+                    }
+
+                }
+
+
+                // console.log("测试",field);
+
+                console.log("一级原因",field_);
+                console.log("二级原因",field_2);
+
+
+                // var newarr=field_[1];
+                // console.log(newarr);
+                // console.log(newarr.length);
+                //
+                // console.log(field_[1]);
+                //
+                // console.log(field_[1].length);
+
+
+                // console.log("测试",field_[1][1].name);
+
+                // 一级原因合并
+                var result_fr=[]
+
+                for (var i = 0; i < field_.length; i++){
+
+                    var result={};
+
+                    var newarr=field_[i];
+
+                    for (var j = 0; j < newarr.length; j++) {
+
+                        if (result[newarr[j].name]) {
+
+                            result[newarr[j].name] += newarr[j].value;
+                        } else {
+
+                            result[newarr[j].name] = newarr[j].value;
+                        }
+                    }
+
+                    result_fr.push(result);
+
+                }
+
+                console.log("result_fr",result_fr);
+
+
+                // 二级原因合并
+                var result_sr=[]
+
+                for (var i = 0; i < field_2.length; i++){
+
+                    var result1={};
+
+                    var newarr1=field_2[i];
+
+                    for (var j = 0; j < newarr1.length; j++) {
+
+                        if (result1[newarr1[j].name]) {
+
+                            result1[newarr1[j].name] += newarr1[j].value;
+                        } else {
+
+                            result1[newarr1[j].name] = newarr1[j].value;
+                        }
+                    }
+
+                    result_sr.push(result1);
+
+                }
+
+                console.log("result_sr",result_sr);
+
+
+                var keyvalue_f=[];
+
+                for (i=0;i<result_fr.length;i++){
+                    var keyvalue=[];
+
+                    for (var key in result_fr[i]){
+                        keyvalue.push({name:key,value:result_fr[i][key]})
+                    }
+                    keyvalue_f.push(keyvalue);
+
+                }
+
+                console.log("keyvalue_f",keyvalue_f);
+
+
+                var keyvalue_s=[];
+
+                for (i=0;i<result_sr.length;i++){
+                    var keyvalue1=[];
+
+                    for (var key in result_sr[i]){
+                        keyvalue1.push({name:key,value:result_sr[i][key]})
+                    }
+                    keyvalue_s.push(keyvalue1);
+
+                }
+
+                console.log("keyvalue_s",keyvalue_s);
+
+
+
+                //计算数组所占百分比
+                function countPercentage(countArray){
+                    var j = eval(countArray.join('+'));
+                    var resultArray = [];
+                    for (var i = 0 ; i < countArray.length ; i++){
+                        var k = (countArray[i]*100/j).toFixed(2) + "%";
+                        resultArray.push(k);
+                    }
+                    return resultArray;
+                }
+
+
+                // 一级原因,30条
+
+                var first_Reason=[];
+                for (i=0;i<keyvalue_f.length;i++){
+
+                    var keyvalue_x=[];
+                    var keyvalue_y=[];
+
+                    for (k=0;k<keyvalue_f[i].length;k++){
+
+                        keyvalue_x.push(keyvalue_f[i][k].name);
+                        keyvalue_y.push(keyvalue_f[i][k].value);
+
+
+                    }
+
+                    resultData = countPercentage(keyvalue_y);
+
+                    var msg="";
+
+                    for (j=0;j<keyvalue_x.length;j++){
+
+                            if (j==keyvalue_x.length-1){
+                                    mark1="；";
+
+                                } else{
+
+                                    mark1="。"
+                            }
+
+                        msg+=keyvalue_x[j]+keyvalue_y[j]+"起"+"，占比"+resultData[j]+mark1;
+
+                    }
+                    // alert(msg);
+                    first_Reason.push(msg);
+
+                }
+
+                console.log(first_Reason);
+
+                // 二级原因,30条
+
+                var sec_Reason=[];
+                for (i=0;i<keyvalue_s.length;i++){
+
+                    var keyvalue_x1=[];
+                    var keyvalue_y1=[];
+
+                    for (k=0;k<keyvalue_s[i].length;k++){
+
+                        keyvalue_x1.push(keyvalue_s[i][k].name);
+                        keyvalue_y1.push(keyvalue_s[i][k].value);
+
+
+                    }
+
+                    resultData1 = countPercentage(keyvalue_y1);
+
+                    var msg1="";
+
+                    for (j=0;j<keyvalue_x1.length;j++){
+
+
+
+                        msg1+=keyvalue_x1[j]+keyvalue_y1[j]+"起"+"，占比"+resultData1[j]+"；";
+
+                    }
+                    // alert(msg);
+                    sec_Reason.push(msg1);
+
+                }
+
+                console.log(sec_Reason);
+
+                var community=[];
+                for (i=0;i<rep.length;i++){
+                    community.push(rep[i].community);
+
+                }
+                console.log(community);
+
+                var sq_= window.document.getElementById("sq_");
+                var xq_= window.document.getElementById("xq_");
+                var dt_= window.document.getElementById("dt_");
+                var dy_= window.document.getElementById("dy_");
+                var jr_= window.document.getElementById("jr_");
+                var yz_= window.document.getElementById("yz_");
+
+
+                var str1="";
+                var str2="";
+                var str3="";
+                var str4="";
+                var str5="";
+                var str6="";
+
+                for (i=0;i<community.length;i++){
+                    k=i+1
+
+                    if (i<5){
+
+                    str1+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+                    if (i>4&&i<10){
+
+                        str2+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+                    if (i>9&&i<15){
+
+                        str3+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+                    if (i>14&&i<20){
+
+                        str4+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+                    if (i>19&&i<25){
+
+                        str5+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+                    if (i>24&&i<30){
+
+                        str6+=k+"）"+community[i]+"<br>"+"一级原因："+first_Reason[i]+"<br>"+"二级原因："+sec_Reason[i]+"<br>";
+
+                    }
+
+
+
+
+                }
+
+                sq_.innerHTML = str1;
+
+                xq_.innerHTML = str2;
+
+                dt_.innerHTML = str3;
+
+                dy_.innerHTML = str4;
+
+                jr_.innerHTML = str5;
+
+                yz_.innerHTML = str6;
+
+
+
+
+
+
+
 
                 col = res.wtbs;
-                console.log("col", col);
+
+                // 小区广义万投比TOP50
+                // console.log("col", col);
 
                 brakdown=res.breakDowns;
-
-                console.log("群障", brakdown);
+                //
+                // console.log("群障", brakdown);
 
 
                 colall = res.wtbsall;
@@ -740,7 +1143,7 @@
                     wgwtbdata1.push(wgwtb[i].wangge);
                 }
 
-                console.log("区域中心万投比",wgwtbdata);
+                // console.log("区域中心万投比",wgwtbdata);
 
                 var wgwtbdata_linear = [];
                 for (var i = 0; i < wgwtbdata.length; i++){
@@ -748,7 +1151,7 @@
                     wgwtbdata_linear.push( [i,wgwtbdata[i]]  );
                 }
 
-                console.log("区域中心万投比投比趋势点",wgwtbdata_linear);
+                // console.log("区域中心万投比投比趋势点",wgwtbdata_linear);
 
                 echartsAll = res.echartdy;
 
@@ -760,7 +1163,7 @@
                     echartsAllwtb.push(echartsAll[i].wantoubi);
                     echartsAllwtb1.push(echartsAll[i].dy);
                 }
-                console.log("单元万投比="+echartsAllwtb);
+                // console.log("单元万投比="+echartsAllwtb);
 
 
 
@@ -770,7 +1173,7 @@
                     echartsAllwtb_linear.push([i,echartsAllwtb[i]]);
                 }
 
-                console.log("单元万投比投比趋势点",echartsAllwtb_linear);
+                // console.log("单元万投比投比趋势点",echartsAllwtb_linear);
 
 
                 var date_weather = [];
@@ -795,7 +1198,7 @@
                         alert($(target).text());
                     }
 
-                    href_ = "/cm5?xiaoqu_in=" + obj.community + "&start_time=" + start_time + "&end_time=" + end_time;
+                    href_ = "/user/cm5?xiaoqu_in=" + obj.community + "&start_time=" + start_time + "&end_time=" + end_time;
                     href1_ = " data-toggle=\"modal\" data-target=\"#events\" type=\"button\" id=\"\"  aria-haspopup=\"true\" aria-expanded=\"true\" "
 
                     html += '<tr>'
@@ -824,11 +1227,11 @@
 
                 // ============================
                 tengpon = res.tenGpons;
-                console.log("tengpon", tengpon);
+                // console.log("tengpon", tengpon);
                 // var echarts1 = res.echart1_dies;
                 echarts1 = res.echart1_dies;
                 echarts2 = res.echart2_xqs;
-                console.log("echarts2", echarts2);
+                // console.log("echarts2", echarts2);
 
 
                 var middle = [];
@@ -847,8 +1250,8 @@
 
                     }
 
-                console.log("middle", middle);
-                console.log("date_weather", date_weather);
+                // console.log("middle", middle);
+                // console.log("date_weather", date_weather);
 
 
                 var middle1 = [];
@@ -866,7 +1269,7 @@
                         }
 
                     }
-                console.log("middle1", middle1);
+                // console.log("middle1", middle1);
 
 
 
@@ -892,15 +1295,15 @@
                 for (let ex of echarts2) {
                     xqarr.push(ex.wantoubi);
                 }
-                console.log("小区万投比",xqarr);
+                // console.log("小区万投比",xqarr);
 
                 var xqarr_linear = [];
                 for (var i = 0; i < xqarr.length; i++){
 
                     xqarr_linear.push([i,xqarr[i]]);
                 }
-
-                console.log("小区万投比趋势点",xqarr_linear);
+                //
+                // console.log("小区万投比趋势点",xqarr_linear);
 
 
 
@@ -1012,8 +1415,8 @@
 
                 var myRegression = ecStat.regression('linear', xqarr_linear);
 
-
-                console.log("小区趋势点",myRegression.points);
+             
+                // console.log("小区趋势点",myRegression.points);
 
 
                 // =========================================
@@ -1021,12 +1424,12 @@
                 var myRegression1 = ecStat.regression('linear', echartsAllwtb_linear);
 
 
-                console.log("单元趋势点",myRegression1.points);
+                // console.log("单元趋势点",myRegression1.points);
                 // ===========================================
                 var myRegression2 = ecStat.regression('linear', wgwtbdata_linear);
 
 
-                console.log("网格趋势点",myRegression2.points);
+                // console.log("网格趋势点",myRegression2.points);
 
 
                 var xqlinear=[];

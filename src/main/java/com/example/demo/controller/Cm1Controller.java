@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -53,6 +51,12 @@ public class Cm1Controller {
 
     @Autowired
     BreakDown_Mapper breakDown_mapper;
+
+    @Autowired
+    ReportMapper reportMapper;
+
+    @Autowired
+    Top30Mapper top30Mapper;
 
 //    @GetMapping("/cm1")
 //    public String queryALL_cm1(Map<String, Object> map,
@@ -126,7 +130,8 @@ public class Cm1Controller {
                                             @RequestParam(name = "end_time", required = false) String endTime,
                                             @RequestParam(name = "dan_y", required = false) String dany,
                                             @RequestParam(name = "wang_ge", required = false) String wangge,
-                                            @RequestParam(name = "xiaoqu_in", required = false) String xiaoquin) throws ParseException {
+                                            @RequestParam(name = "xiaoqu_in", required = false) String xiaoquin
+                                            ) throws ParseException {
 
         List<Wtb> wtbs = wtbMapper.findAll(starTtime,endTime,dany,wangge,xiaoquin);
 
@@ -143,6 +148,10 @@ public class Cm1Controller {
         List<Echart1_dy> echartdy= echartAll_dyMapper.getAllqq(starTtime,endTime,dany);
 
         List<BreakDown> breakDowns = breakDown_mapper.queryBreakDown(starTtime,endTime,xiaoquin);
+
+        List<Wtb> report = reportMapper.query_re(starTtime,endTime);
+
+        List<WorkSheet1> top=top30Mapper.query_top30(starTtime,endTime);
 
         Map<String, Object> map = new HashMap<>();
 
@@ -161,6 +170,10 @@ public class Cm1Controller {
         map.put("wgWtbs",wgWtbs);
 
         map.put("breakDowns",breakDowns);
+
+        map.put("report",report);
+
+        map.put("top",top);
 
 
         List<Echart1_dy> echart1_dies = echart1_dyMapper.getAllsq(starTtime,endTime);

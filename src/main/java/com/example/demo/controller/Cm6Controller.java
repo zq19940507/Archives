@@ -29,7 +29,9 @@ public class Cm6Controller {
     @Autowired
     EventsMapper eventsMapper;
 
+
     @GetMapping(value = "/user/cm6")
+
     public String analy(HttpServletRequest request){
         String start_time=request.getParameter("start_time");
         String end_time=request.getParameter("end_time");

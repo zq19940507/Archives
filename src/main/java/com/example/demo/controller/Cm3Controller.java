@@ -18,7 +18,9 @@ public class Cm3Controller {
     WorkersMapper workersMapper;
 
 
+
     @GetMapping("/user/cm3")
+
     public String cm3(){
 
         return "cm3";
